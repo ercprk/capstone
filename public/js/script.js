@@ -3,7 +3,7 @@ $(function () {
       e.preventDefault();
       $.ajax({
         type: "POST",
-        url: "https://smb-email-aid-5kntub6c2a-uk.a.run.app/",
+        url: "https://smb-email-aid-5kntub6c2a-uc.a.run.app/",
         dataType: "json",
         data: JSON.stringify(getInputValues()),
         beforeSend: function (data) {
