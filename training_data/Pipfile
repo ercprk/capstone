@@ -6,16 +6,9 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
-httplib2 = ">=0.18.0"
-nltk = "*"
 google-api-python-client = "*"
 google-auth-httplib2 = "*"
 google-auth-oauthlib = "*"
-apiclient = "*"
-spacy = "*"
-pylint = "*"
-en-core-web-lg = {file = "https://github.com/explosion/spacy-models/releases/download/en_core_web_lg-2.2.5/en_core_web_lg-2.2.5.tar.gz"}
-requests = "*"
 
 [requires]
-python_version = "3.8"
+python_version = "3.9.6"

@@ -7,6 +7,7 @@ import apiclient
 import urllib.error
 import pprint
 import html
+import json
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
@@ -14,20 +15,37 @@ from google.auth.transport.requests import Request
 # If modifying these scopes, delete the file token.pickle.
 SCOPES = ["https://www.googleapis.com/auth/gmail.readonly"]
 
-# Function : GetMessage
-# Does     : Get a Message with given ID.
+# Function : GetMessageSenderAndTexts
+# Does     : Get message details with the given ID
 # Args:    : service : Authorized Gmail API service instance.
 #            user_id : User's email address. The special value "me"
 #                    can be used to indicate the authenticated user.
 #            msg_id  : The ID of the Message required.
-# Returns  : A text snippet of the message
-def GetMessage(service, user_id, msg_id):
+# Returns  : The sender of the message, and texts from the message
+def GetMessageSenderAndTexts(service, user_id, msg_id):
     try:
-        message = service.users().messages().get(userId=user_id,
-                                                 id=msg_id).execute()
+        sender = ''
 
-        #print('Message snippet: %s' % text_snippet)
-        return message['snippet']
+        message = service.users().messages().get(userId=user_id, id=msg_id, format='full').execute()
+
+        #print(json.dumps(message, indent=4, sort_keys=True, separators=(',', ': ')))
+
+        # Get sender
+        for header in message['payload']['headers']:
+            if header['name'] == 'From':
+                sender = header['value']
+                break
+        
+        # Get texts
+        for part in message['payload']['parts']:
+            mime_type = part['mimeType']
+            data = part['body']['data']
+
+            if mime_type = 'text/plain':
+                
+
+
+        return message
     except errors.HttpError as error:
         print('An error occurred: %s' % error)
 
@@ -99,18 +117,21 @@ def main():
     mails = ListMessagesMatchingQuery(service, "me")
     print(f"There are {len(mails)} mails.")
 
-    fo = open("unsanitized_data.txt", "w")
+    fo_raw = open("unsanitized_data.txt", "w")
+    fo_senders = open("senders.txt", "w")
     print("Scraping...")
     counter = 0
 
     for mail in mails:
         id = mail['id']
         message = GetMessage(service, "me", id)
-        fo.write(message)
+        fo_raw.write(message)
         counter = counter + 1
-        print(counter)
+        if counter % 100 == 0:
+            print(counter)
 
-    fo.close()
+    fo_raw.close()
+    fo_senders.close()
 
 if __name__ == '__main__':
     main()
