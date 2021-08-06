@@ -1,14 +1,12 @@
 #!/usr/bin/python3
 
-from __future__ import print_function
 import pickle
 import os.path
-import apiclient
-import urllib.error
-import pprint
-import html
-import json
+import base64
+import binascii
+import html2text
 from googleapiclient.discovery import build
+from googleapiclient.errors import HttpError
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 
@@ -25,29 +23,79 @@ SCOPES = ["https://www.googleapis.com/auth/gmail.readonly"]
 def GetMessageSenderAndTexts(service, user_id, msg_id):
     try:
         sender = ''
+        texts = ''
 
         message = service.users().messages().get(userId=user_id, id=msg_id, format='full').execute()
-
-        #print(json.dumps(message, indent=4, sort_keys=True, separators=(',', ': ')))
 
         # Get sender
         for header in message['payload']['headers']:
             if header['name'] == 'From':
                 sender = header['value']
                 break
-        
+
         # Get texts
-        for part in message['payload']['parts']:
+        text_maker = html2text.HTML2Text()
+        text_maker.ignore_emphasis = True
+        text_maker.ignore_images = True
+        text_maker.ignore_tables = True
+        text_maker.ignore_links = True
+
+        parts = list()
+        if 'parts' in message['payload']:
+            for part in message['payload']['parts']:
+                if 'data' in part['body']:
+                    parts.append(part)
+        else:
+            parts.append(message['payload'])
+
+        for part in parts:
             mime_type = part['mimeType']
             data = part['body']['data']
 
-            if mime_type = 'text/plain':
-                
+            content_type = ''
+            content_transfer_encoding = ''
+            for header in part['headers']:
+                if header['name'] == 'Content-Type':
+                    content_type = header['value']
+                elif header['name'] == 'Content-Transfer-Encoding':
+                    content_transfer_encoding = header['value']
 
+            # Always do base64 decoding, since Message returned by Gmail API is always base64 encoded:
+            # https://stackoverflow.com/questions/56087503/gmail-returns-base64-encoded-but-lists-as-quotable-printable
+            if mime_type == 'text/plain':
+                if 'UTF-8' in content_type or 'utf-8' in content_type:
+                    texts += str(base64.urlsafe_b64decode(data), encoding='utf-8', errors='ignore')
+                elif 'iso-8859-1' in content_type:
+                    texts += str(base64.urlsafe_b64decode(data), encoding='iso-8859-1', errors='ignore')
+                elif 'us-ascii' in content_type:
+                    texts += str(base64.urlsafe_b64decode(data), encoding='us-ascii', errors='ignore')
+                elif 'windows-1252' in content_type:
+                    texts += str(base64.urlsafe_b64decode(data), encoding='windows-1252', errors='ignore')
+                else:
+                    print('Unknown content type in text/plain:\n\t%s' % content_type)
+            elif mime_type == 'text/html':
+                if 'UTF-8' in content_type or 'utf-8' in content_type:
+                    texts += text_maker.handle(str(base64.urlsafe_b64decode(data), encoding='utf-8', errors='ignore'))
+                elif 'iso-8859-1' in content_type:
+                    texts += text_maker.handle(str(base64.urlsafe_b64decode(data), encoding='iso-8859-1', errors='ignore'))
+                elif 'us-ascii' in content_type:
+                    texts += text_maker.handle(str(base64.urlsafe_b64decode(data), encoding='us-ascii', errors='ignore'))
+                elif 'windows-1252' in content_type:
+                    texts += text_maker.handle(str(base64.urlsafe_b64decode(data), encoding='windows-1252', errors='ignore'))
+                else:
+                    print('Unknown content type in text/html:\n\t%s' % content_type)
+            else:
+                print('Unknown MIME type:\n\t%s' % mime_type)
 
-        return message
-    except errors.HttpError as error:
-        print('An error occurred: %s' % error)
+        texts += message['snippet']
+    except HttpError as error:
+        print('An HttpError occurred: %s' % error)
+    except binascii.Error as error:
+        print('A binascii.Error occurred: %s' % error)
+    except KeyError as error:
+        print('A KeyError occurred: %s' % error)
+    finally:
+        return sender, texts
 
 # Function : ListMessageMatchingQuery
 # Does     : List all Messages of the user's mailbox matching the query.
@@ -64,9 +112,7 @@ def ListMessagesMatchingQuery(service, user_id):
 
     query = "in:anywhere"
 
-    response = service.users().messages().list(userId=user_id,
-                                               q=query,
-                                               maxResults=511).execute()
+    response = service.users().messages().list(userId=user_id, q=query, maxResults=511).execute()
 
     messages = []
     if 'messages' in response:
@@ -77,11 +123,7 @@ def ListMessagesMatchingQuery(service, user_id):
         pageToken = response['nextPageToken']
 
     while pageToken:
-        response = service.users().messages().list(userId=user_id,
-                                                   q=query,
-                                                   maxResults=511,
-                                                   pageToken=pageToken)\
-                                                   .execute()
+        response = service.users().messages().list(userId=user_id, q=query, maxResults=511, pageToken=pageToken).execute()
         messages.extend(response['messages'])
         if 'nextPageToken' in response:
             pageToken = response['nextPageToken']
@@ -115,22 +157,24 @@ def main():
     service = build('gmail', 'v1', credentials=creds)
 
     mails = ListMessagesMatchingQuery(service, "me")
-    print(f"There are {len(mails)} mails.")
+    num_mails = len(mails)
+    print(f"There are {num_mails} mails.")
 
-    fo_raw = open("unsanitized_data.txt", "w")
-    fo_senders = open("senders.txt", "w")
+    fo_data = open(file="unsanitized_data.txt", mode="w", encoding="utf-8", errors="ignore")
+    fo_senders = open(file="senders.txt", mode="w", encoding="utf-8", errors="ignore")
     print("Scraping...")
     counter = 0
 
     for mail in mails:
         id = mail['id']
-        message = GetMessage(service, "me", id)
-        fo_raw.write(message)
+        sender, texts = GetMessageSenderAndTexts(service, "me", id)
+        fo_data.write(texts)
+        fo_senders.write(sender + '\n')
         counter = counter + 1
-        if counter % 100 == 0:
-            print(counter)
+        if counter % 100 == 0 or counter == num_mails:
+            print('%d emails scraped (%.2f%% complete)' % (counter, float(counter / num_mails) * 100))
 
-    fo_raw.close()
+    fo_data.close()
     fo_senders.close()
 
 if __name__ == '__main__':
