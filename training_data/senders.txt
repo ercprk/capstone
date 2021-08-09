@@ -1,3 +1,20 @@
+Del Taco <eclub@deltaco.com>
+Texas Roadhouse <Texas_Roadhouse@texasr.fbmta.com>
+"Dunkin'" <press@dunkinbrands.com>
+Ruby Tuesday So Connected <news@rubytuesdayrestaurants.com>
+Whataburger <rewardreplies@wbhq.com>
+"Jimmy John's" <announcements@jimmyjohns.com>
+Whataburger <news@whataburger.com>
+Del Taco <eclub@deltaco.com>
+El Pollo Loco Rewards <rewardnews@loco-rewards.com>
+TGI Fridays <rewards@mail.fridays.com>
+BurgerFi <eclub@burgerfi.fbmta.com>
+"Moe's Southwest Grill" <moerewards@moes.com>
+Whataburger <news@whataburger.com>
+Buffalo Wild Wings <reply@emailinfo.buffalowildwings.com>
+Back Yard Burgers <clubhouse@backyardburgers.com>
+SUBWAY Restaurants <news@subs.subway.com>
+Cinnabon <clubcinnabon@c.cinnabon.com>
 Ruby Tuesday So Connected <news@rubytuesdayrestaurants.com>
 TGI Fridays <rewards@mail.fridays.com>
 "Auntie Anne's" <auntie@c.auntieannes.com>
@@ -1160,7 +1177,6 @@ Ruby Tuesday So Connected <news@rubytuesdayrestaurants.com>
 Hooters <promotions@hooterseclub.com>
 Del Taco <eclub@deltaco.com>
 Buffalo Wild Wings <reply@emailinfo.buffalowildwings.com>
-Hard Rock Rewards <email@info.hardrockrewards.com>
 Which Wich <no-reply@whichwich.com>
 Smokey Bones <smokeybones@smokeybones.fbmta.com>
 Hard Rock Cafe <info@hardrock.com>
@@ -6900,8 +6916,6 @@ Ruby Tuesday So Connected <news@rubytuesdayrestaurants.com>
 ABP <abp@aubonpain.fbmta.com>
 SUBWAY Restaurants <news@subs.subway.com>
 SUBWAY Restaurants <news@subs.subway.com>
-"Kyoungduk Park (via Google Drive)" <kyoungdukp@gmail.com>
-"Kyoungduk Park (via Google Docs)" <kyoungdukp@gmail.com>
 "Applebee's Grill + Bar" <Applebees@applebees.fbmta.com>
 "Auntie Anne's Pretzel Perks" <Auntie@auntieannes.com>
 Fuddruckers <comments@fuddruckers.com>
@@ -7014,7 +7028,6 @@ Cinnabon <clubcinnabon@e.cinnabon.com>
 Smokey Bones <smokeybones@smokeybones.fbmta.com>
 "Shakey's Pizza" <ShakeysUSA@mail.private-eclub.com>
 "Arby’s" <arbys@emails.arbys.com>
-Hard Rock Rewards <email@info.hardrockrewards.com>
 DQ Blizzard Fan Club <blizzardfanclub@email1.dairyqueen.com>
 "UNO Pizzeria & Grill" <UNO@unoinsidersclub.fbmta.com>
 Buca di Beppo <BucadiBeppo@buca.fbmta.com>
@@ -7150,8 +7163,6 @@ Ruby Tuesday So Connected <news@rubytuesdayrestaurants.com>
 Chipotle Mexican Grill <chipotle@mktg-mail.chipotle.com>
 "Bojangles' E-Club" <eclub@bojangles.com>
 El Pollo Loco Rewards <rewardnews@loco-rewards.com>
-Google <no-reply@accounts.google.com>
-Google <no-reply@accounts.google.com>
 Slab Happy <marketing@marbleslab.com>
 Sbarro Slice Society <noreplyslicesociety@sbarro.com>
 Ruby Tuesday So Connected <news@rubytuesdayrestaurants.com>
@@ -7182,13 +7193,7 @@ LongHorn Steakhouse <LongHorn@e.longhornsteakhouse.com>
 "McDonald's" <McDonalds@c.mcdonalds.com>
 Seasons 52 <FreshIntelligence@e.seasons52.com>
 Del Taco <eclub@deltaco.com>
-Google <no-reply@accounts.google.com>
-Google <no-reply@accounts.google.com>
 Bahama Breeze <BahamaBreeze@e.bahamabreeze.com>
-Google <no-reply@accounts.google.com>
-Google <no-reply@accounts.google.com>
-Google <no-reply@accounts.google.com>
-Google <no-reply@accounts.google.com>
 Caviar <hungry@trycaviar.com>
 "Citizen Public House & Oyster Bar" <hello@citizenpub.com>
 IHOP <no-reply@ihop-communications.com>
@@ -7400,7 +7405,6 @@ onlineordering@littlecaesars.com
 Which Wich <no-reply@whichwich.com>
 Online Ordering <noreply@olo.com>
 White Castle <noreply@whitecastle.com>
-Hard Rock Rewards <email@info.hardrockrewards.com>
 <noreply@extremepizza.com>
 Fuddruckers <comments@fuddruckers.com>
 Caribou Perks Points <guest@tsg.pxsmail.com>
@@ -7437,10 +7441,6 @@ TGI Fridays <no-reply@email.fridays.com>
 Barilla <noreply@barilla.com>
 Panda Express <pandaexpress@pandaexpress.fbmta.com>
 The Cheesecake Factory <Thecheesecakefactory@mail.thecheesecakefactory.com>
-Kyoungduk Park <kyoungdukp@gmail.com>
 "Papa John's" <specials@papajohns-specials.com>
 Burger King <promos-coming@your-way.bk.com>
 "Peet's Coffee" <PeetsCoffee@peets.com>
-Nihal Pai <nihal.pai@gmail.com>
-Nihal Pai <nihal.pai@gmail.com>
-Nihal Pai <nihal.pai@gmail.com>

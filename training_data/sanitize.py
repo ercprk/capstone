@@ -10,7 +10,7 @@ import spacy
 def sanitize(text):
     res = ''
     words = set(nltk.corpus.words.words())
-    nlp = spacy.load("en_core_web_lg")
+    nlp = spacy.load("en_core_web_trf")
 
     # Remove extra whitespaces
     sanitized = re.sub(r'\s+', ' ', text)
@@ -26,12 +26,20 @@ def sanitize(text):
         if is_stop_sentence(sentence):
             continue
 
+        #tokens = nltk.word_tokenize(sentence)
+        #for token in tokens:
+        #    if token not in words:
+
+        print(sentence)
         doc = nlp(sentence)
         for ent in doc.ents:
+            print(ent.text + ' ' + ent.label_)
             if ent.label_ == 'ORG':
                 sentence.replace(ent.text, 'BUSINESS_NAME')
         
         res += sentence + '\n'
+
+        return sentence
     
         #print(token.text, token.lemma_, token.pos_, token.tag_, token.dep_, token.shape_, token.is_alpha, token.is_stop)
 

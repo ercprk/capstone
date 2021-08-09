@@ -165,17 +165,30 @@ def main():
     print("Scraping...")
     counter = 0
 
+    unique_senders = set()
+
     for mail in mails:
         id = mail['id']
         sender, texts = GetMessageSenderAndTexts(service, "me", id)
         fo_data.write(texts)
         fo_senders.write(sender + '\n')
+
+        tokens = sender.split(' <')
+        if len(tokens) > 1:
+            name = tokens[0]
+            unique_senders.add(name.strip('"'))
+
         counter = counter + 1
         if counter % 100 == 0 or counter == num_mails:
             print('%d emails scraped (%.2f%% complete)' % (counter, float(counter / num_mails) * 100))
 
     fo_data.close()
     fo_senders.close()
+
+    fo_unique_senders = open(file="unique_senders.txt", mode="w", encoding="utf-8", errors="ignore")
+    for unique_sender in unique_senders:
+        fo_unique_senders.write(unique_sender + '\n')
+    fo_unique_senders.close()
 
 if __name__ == '__main__':
     main()
