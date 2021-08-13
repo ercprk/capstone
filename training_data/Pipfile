@@ -15,4 +15,3 @@ html2text = "*"
 nltk = "*"
 en-core-web-lg = {file = "https://github.com/explosion/spacy-models/releases/download/en_core_web_lg-3.1.0/en_core_web_lg-3.1.0.tar.gz"}
 spacy = "==3.1.0"
-commonregex = "*"
